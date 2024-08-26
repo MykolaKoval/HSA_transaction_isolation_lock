@@ -1,0 +1,47 @@
+version: '3.6'
+services:
+
+  mysql:
+    image: mysql:8.4
+    env_file: configuration.env
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./scripts/mysql_ddl.sql:/docker-entrypoint-initdb.d/1.sql # Create data model
+      - ./scripts/data.sql:/docker-entrypoint-initdb.d/2.sql # Fill with data
+    networks:
+      - backend
+
+  psmysql:
+    image: percona/percona-server:8.0.34
+    env_file: configuration.env
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - psmysql_data:/var/lib/mysql
+      - ./scripts/mysql_ddl.sql:/docker-entrypoint-initdb.d/1.sql # Create data model
+      - ./scripts/data.sql:/docker-entrypoint-initdb.d/2.sql # Fill with data
+    networks:
+      - backend
+
+  postgresql:
+    image: postgres:16.4
+    env_file: configuration.env
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+      - ./scripts/postgresql_ddl.sql:/docker-entrypoint-initdb.d/1.sql # Create data model
+      - ./scripts/data.sql:/docker-entrypoint-initdb.d/2.sql # Fill with data
+    networks:
+      - backend
+
+volumes:
+  mysql_data:
+  psmysql_data:
+  postgresql_data:
+
+networks:
+  backend:
+    driver: bridge
