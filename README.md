@@ -29,7 +29,7 @@ SET GLOBAL innodb_status_output=ON; enable InnoDB standard Monitor
 SET GLOBAL innodb_status_output_locks=ON; - enable Locks Monitor
 ```
 
-Percona DB results:
+<h3>Percona DB results:</h3>
 ```
 // modify globally and reconnect
 SELECT @@transaction_ISOLATION; // check for current seesion
@@ -47,7 +47,7 @@ https://docs.percona.com/percona-server/innovation-release/isolation-levels.html
 | Repeatable Read  | N           | N          | Y                   | N            |
 | Serializable     | N           | N          | N                   | N            |
 
-PostgreSQL DB results:
+<h3>PostgreSQL DB results:</h3>
 ```
 // psql connection
 docker exec -it hsa_transaction_isolation_lock-postgresql-1 psql -U user -d test_db
